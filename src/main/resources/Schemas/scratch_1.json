@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "x-fbp-params": {
+      "type": "object",
+      "properties": {
+        "endPoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "enum": ["create", "fetchById", "update", "delete"] }
+            },
+            "required": ["type"]
+          }
+        },
+        "behaviours": {
+          "type": "object",
+          "properties": { "audit": { "type": "boolean" } }
+        },
+        "interfaces": {
+          "type": "object",
+          "properties": {
+            "dto": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      },
+      "if": {
+        "properties": { "behaviours": { "properties": { "audit": { "const": true } } } }
+      },
+      "then": {
+        "properties": {
+          "interfaces": {
+            "properties": {
+              "dto": {
+                "contains": { "const": "FallBackIdentifiable" },
+                "allOf": [{ "contains": { "const": "Identifiable" } }]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

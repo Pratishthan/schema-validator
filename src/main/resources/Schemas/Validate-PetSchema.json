@@ -1,0 +1,83 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "components": {
+      "type": "object",
+      "properties": {
+        "schemas": {
+          "type": "object",
+          "properties": {
+            "Pet": {
+              "type": "object",
+              "properties": {
+                "x-fbp-params": {
+                  "type": "object",
+                  "properties": {
+                    "endPoints": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": { "enum": ["create", "fetchById", "update", "delete"] }
+                        },
+                        "required": ["type"]
+                      }
+                    },
+                    "behaviours": {
+                      "type": "object",
+                      "properties": {
+                        "audit": { "type": "boolean" }
+                      }
+                    },
+                    "interfaces": {
+                      "type": "object",
+                      "properties": {
+                        "dto": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "iface": { "type": "string" }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "if": {
+                    "properties": {
+                      "behaviours": {
+                        "properties": { "audit": { "const": true } }
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "interfaces": {
+                        "properties": {
+                          "dto": {
+                            "contains": { "properties": { "iface": { "const": "FallBackIdentifiable" } } },
+                            "allOf": [
+                              {
+                                "contains": { "properties": { "iface": { "const": "Identifiable" } } }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Pet",
+    "version": "1.0.0",
+    "description": "API Documentation for Pet Store App",
+    "x-fbp-generated": "2024-08-18 19:34:25"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:1160/petstore",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+  },
+  "components": {
+    "schemas": {
+      "Pet": {
+        "description": "Creating pet",
+        "required": [
+          "name",
+          "petType",
+          "effectiveFrom"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Pet name",
+            "type": "string",
+            "minLength": 1
+          },
+          "petType": {
+            "$ref": "PetType.json#/components/schemas/PetType"
+          },
+          "tricks": {
+            "type": "array",
+            "items": {
+              "$ref": "Trick.json#/components/schemas/Trick"
+            }
+          },
+          "effectiveFrom": {
+            "$ref": "../common/FbpDtoDataTypes.json#/components/schemas/BusinessDateDTO"
+          },
+          "effectiveTill": {
+            "$ref": "../common/FbpDtoDataTypes.json#/components/schemas/NullableBusinessDateDTO",
+            "x-fbp-params" : {
+              "isModifiable": false
+            }
+          }
+        },
+        "x-fbp-params": {
+          "generateEntity": true,
+          "repoMethods": [
+            {
+              "query" : "",
+              "fetchMethod": "findByPetType",
+              "fetchParams": [
+                {
+                  "fetchParamsType": "PetType",
+                  "fetchParamsName": "petType"
+                }
+              ],
+              "singleResponse": true
+            },
+            {
+              "query": "",
+              "fetchMethod": "findByPetIdAndOrgCode",
+              "fetchParams": [
+                {
+                  "fetchParamsType": "String",
+                  "fetchParamsName": "petId"
+                },{
+                  "fetchParamsType": "String",
+                  "fetchParamsName": "orgCode"
+                }
+              ],
+              "singleResponse": true
+            }
+          ],
+          "overrideMethods": {
+            "entity": [
+            ],
+            "dto": [
+              {
+                "returnType": "String",
+                "function": "getId",
+                "params": [
+                ],
+                "body": "return this.petId;"
+              },
+              {
+                "returnType": "String",
+                "function": "getFallBackId",
+                "params": [
+                ],
+                "body": "return this.name;"
+              }
+            ]
+          },
+          "interfaces": {
+            "entity": [
+            ],
+            "dto": [
+
+            ]
+          },
+          "rootSchema": true,
+          "endPoints": [
+            {
+              "type": "create"
+            },
+            {
+              "created": "fetchById",
+              "enableMakerChecker": false
+            }
+
+          ],
+          "behaviours": {
+            "persist": true,
+            "setDefaults": true,
+            "audit": true
+          }
+        }
+      }
+    }
+  }
+}
