@@ -102,7 +102,14 @@
             "entity": [
             ],
             "dto": [
-
+              {
+                "iface": "FallBackIdentifiable",
+                "package": "com.infosys.fbp.framework.util.interfaces"
+              },
+              {
+                "iface": "Identifiable",
+                "package": "com.infosys.fbp.framework.util.interfaces"
+              }
             ]
           },
           "rootSchema": true,
@@ -111,7 +118,7 @@
               "type": "create"
             },
             {
-              "created": "fetchById",
+              "type": "fetchById",
               "enableMakerChecker": false
             }
 
